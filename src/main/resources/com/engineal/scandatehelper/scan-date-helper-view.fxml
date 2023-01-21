@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.engineal.scandatehelper.ScanDateHelperController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+
+    <TabPane tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Simple">
+            <VBox spacing="10.0">
+                <padding>
+                    <Insets top="10.0"/>
+                </padding>
+
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                    </rowConstraints>
+
+                    <Label text="Date" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="datePicker" onAction="#onSimpleDateChanged" GridPane.columnIndex="1"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+        <Tab text="Advanced">
+            <VBox spacing="10.0">
+                <padding>
+                    <Insets top="10.0"/>
+                </padding>
+
+                <GridPane hgap="10.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
+
+                    <Label text="Year" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="yearTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Month" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ChoiceBox fx:id="monthChoiceBox" disable="true" value="Unknown" GridPane.columnIndex="1"
+                               GridPane.rowIndex="1">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Unknown"/>
+                                <String fx:value="January"/>
+                                <String fx:value="February"/>
+                                <String fx:value="March"/>
+                                <String fx:value="April"/>
+                                <String fx:value="May"/>
+                                <String fx:value="June"/>
+                                <String fx:value="July"/>
+                                <String fx:value="August"/>
+                                <String fx:value="September"/>
+                                <String fx:value="October"/>
+                                <String fx:value="November"/>
+                                <String fx:value="December"/>
+                            </FXCollections>
+                        </items>
+                    </ChoiceBox>
+                    <Label text="Day" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="dayTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                </GridPane>
+            </VBox>
+        </Tab>
+    </TabPane>
+
+    <GridPane hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+
+        <Label text="Directory" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Hyperlink fx:id="directoryText" onAction="#onDirectoryAction" text="Nothing Selected..."
+                   GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <CheckBox fx:id="scanCheckBox" disable="true" mnemonicParsing="false" text="Automatically set date on new files"
+                  GridPane.columnSpan="2" GridPane.rowIndex="1"/>
+    </GridPane>
+</VBox>

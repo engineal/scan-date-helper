@@ -24,7 +24,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 application {
     mainModule.set("com.engineal.scandatehelper")
-    mainClass.set("com.engineal.scandatehelper.HelloApplication")
+    mainClass.set("com.engineal.scandatehelper.ScanDateHelperApplication")
 }
 
 javafx {
