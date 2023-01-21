@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -13,7 +11,7 @@
     </padding>
 
     <TabPane tabClosingPolicy="UNAVAILABLE">
-        <Tab text="Simple">
+        <Tab text="%tab.simple.text">
             <VBox spacing="10.0">
                 <padding>
                     <Insets top="10.0"/>
@@ -28,12 +26,12 @@
                         <RowConstraints/>
                     </rowConstraints>
 
-                    <Label text="Date" GridPane.columnIndex="0"/>
+                    <Label text="%label.date.text" GridPane.columnIndex="0"/>
                     <DatePicker fx:id="datePicker" onAction="#onSimpleDateChanged" GridPane.columnIndex="1"/>
                 </GridPane>
             </VBox>
         </Tab>
-        <Tab text="Advanced">
+        <Tab text="%tab.advanced.text">
             <VBox spacing="10.0">
                 <padding>
                     <Insets top="10.0"/>
@@ -50,30 +48,12 @@
                         <RowConstraints/>
                     </rowConstraints>
 
-                    <Label text="Year" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <Label text="%label.year.text" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                     <TextField fx:id="yearTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                    <Label text="Month" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <ChoiceBox fx:id="monthChoiceBox" disable="true" value="Unknown" GridPane.columnIndex="1"
-                               GridPane.rowIndex="1">
-                        <items>
-                            <FXCollections fx:factory="observableArrayList">
-                                <String fx:value="Unknown"/>
-                                <String fx:value="January"/>
-                                <String fx:value="February"/>
-                                <String fx:value="March"/>
-                                <String fx:value="April"/>
-                                <String fx:value="May"/>
-                                <String fx:value="June"/>
-                                <String fx:value="July"/>
-                                <String fx:value="August"/>
-                                <String fx:value="September"/>
-                                <String fx:value="October"/>
-                                <String fx:value="November"/>
-                                <String fx:value="December"/>
-                            </FXCollections>
-                        </items>
-                    </ChoiceBox>
-                    <Label text="Day" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <Label text="%label.month.text" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ChoiceBox fx:id="monthChoiceBox" disable="true" value="%choice.month.unknown" GridPane.columnIndex="1"
+                               GridPane.rowIndex="1"/>
+                    <Label text="%label.day.text" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                     <TextField fx:id="dayTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                 </GridPane>
             </VBox>
@@ -90,10 +70,10 @@
             <RowConstraints/>
         </rowConstraints>
 
-        <Label text="Directory" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Hyperlink fx:id="directoryText" onAction="#onDirectoryAction" text="Nothing Selected..."
+        <Label text="%label.directory.text" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Hyperlink fx:id="directoryText" onAction="#onDirectoryAction" text="%hyperlink.directory.nothing"
                    GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <CheckBox fx:id="scanCheckBox" disable="true" mnemonicParsing="false" text="Automatically set date on new files"
+        <CheckBox fx:id="scanCheckBox" disable="true" mnemonicParsing="false" text="%checkbox.scan.text"
                   GridPane.columnSpan="2" GridPane.rowIndex="1"/>
     </GridPane>
 </VBox>

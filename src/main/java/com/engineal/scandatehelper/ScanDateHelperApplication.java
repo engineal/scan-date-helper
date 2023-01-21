@@ -6,13 +6,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class ScanDateHelperApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(ScanDateHelperApplication.class.getResource("scan-date-helper-view.fxml"));
+        URL location = ScanDateHelperApplication.class.getResource("scan-date-helper-view.fxml");
+        ResourceBundle resources = ResourceBundle.getBundle("com.engineal.scandatehelper.scan-date-helper", Locale.getDefault());
+        FXMLLoader fxmlLoader = new FXMLLoader(location, resources);
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Scan Date Helper");
+        stage.setTitle(resources.getString("stage.title"));
         stage.setScene(scene);
         stage.show();
     }

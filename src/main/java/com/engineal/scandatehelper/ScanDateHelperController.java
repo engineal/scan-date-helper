@@ -10,7 +10,9 @@ import java.io.File;
 import java.net.URL;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -33,6 +35,8 @@ public class ScanDateHelperController implements Initializable {
 
     @FXML
     private CheckBox scanCheckBox;
+
+    private ResourceBundle resources;
 
     private static boolean isValidYear(int year) {
         try {
@@ -57,6 +61,8 @@ public class ScanDateHelperController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.resources = resources;
+
         initializeYearTextField();
         initializeMonthChoiceBox();
         initializeDayTextField();
@@ -75,7 +81,7 @@ public class ScanDateHelperController implements Initializable {
         // Update month field and simple date picker with newly selected date
         yearTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                monthChoiceBox.setValue("Unknown");
+                monthChoiceBox.setValue(resources.getString("choice.month.unknown"));
                 monthChoiceBox.setDisable(true);
                 // Date field will follow with month listener
             } else {
@@ -97,6 +103,10 @@ public class ScanDateHelperController implements Initializable {
     }
 
     private void initializeMonthChoiceBox() {
+        // Add localized month names
+        monthChoiceBox.getItems().add(resources.getString("choice.month.unknown"));
+        Arrays.stream(Month.values()).forEachOrdered(month -> monthChoiceBox.getItems().add(month.getDisplayName(TextStyle.FULL, Locale.getDefault())));
+
         // Update day field and simple date picker with newly selected date
         monthChoiceBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.intValue() == 0) {
@@ -163,19 +173,19 @@ public class ScanDateHelperController implements Initializable {
     @FXML
     protected void onDirectoryAction() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose Images or Directory");
+        fileChooser.setTitle(resources.getString("file-chooser.title"));
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPEG Files", "*.jpg", "*.jpeg")
+                new FileChooser.ExtensionFilter(resources.getString("file-chooser.extension.jpeg"), "*.jpg", "*.jpeg")
         );
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(directoryText.getScene().getWindow());
-        if (selectedFiles.isEmpty()) {
-            directoryText.setText("Nothing Selected...");
+        if (selectedFiles == null || selectedFiles.isEmpty()) {
+            directoryText.setText(resources.getString("hyperlink.directory.nothing"));
             scanCheckBox.setDisable(true);
         } else if (selectedFiles.size() == 1) {
-            directoryText.setText("1 file selected");
+            directoryText.setText(String.format(resources.getString("hyperlink.directory.singular-file"), selectedFiles.size()));
             scanCheckBox.setDisable(false);
         } else {
-            directoryText.setText(String.format("%d files selected", selectedFiles.size()));
+            directoryText.setText(String.format(resources.getString("hyperlink.directory.plural-files"), selectedFiles.size()));
             scanCheckBox.setDisable(false);
         }
     }
