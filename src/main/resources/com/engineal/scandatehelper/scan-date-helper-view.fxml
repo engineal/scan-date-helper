@@ -27,7 +27,7 @@
                     </rowConstraints>
 
                     <Label text="%label.date.text" GridPane.columnIndex="0"/>
-                    <DatePicker fx:id="datePicker" onAction="#onSimpleDateChanged" GridPane.columnIndex="1"/>
+                    <DatePicker fx:id="datePicker" GridPane.columnIndex="1"/>
                 </GridPane>
             </VBox>
         </Tab>
@@ -51,7 +51,7 @@
                     <Label text="%label.year.text" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
                     <TextField fx:id="yearTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                     <Label text="%label.month.text" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                    <ChoiceBox fx:id="monthChoiceBox" disable="true" value="%choice.month.unknown" GridPane.columnIndex="1"
+                    <ChoiceBox fx:id="monthChoiceBox" disable="true" GridPane.columnIndex="1"
                                GridPane.rowIndex="1"/>
                     <Label text="%label.day.text" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
                     <TextField fx:id="dayTextField" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
