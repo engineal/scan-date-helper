@@ -2,9 +2,11 @@ package com.engineal.scandatehelper;
 
 import javafx.beans.property.*;
 
+import java.io.File;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 public class ScanDateHelperModel {
 
@@ -12,6 +14,8 @@ public class ScanDateHelperModel {
     private final IntegerProperty yearProperty = new SimpleIntegerProperty();
     private final ObjectProperty<Month> monthProperty = new SimpleObjectProperty<>();
     private final IntegerProperty dayProperty = new SimpleIntegerProperty();
+    private final ObjectProperty<File> directoryProperty = new SimpleObjectProperty<>();
+    private final ListProperty<ImageModel> imagesProperty = new SimpleListProperty<>();
 
     public ScanDateHelperModel() {
         dateProperty.addListener((observable, oldValue, newValue) -> {
@@ -137,6 +141,30 @@ public class ScanDateHelperModel {
 
     public IntegerProperty dayProperty() {
         return dayProperty;
+    }
+
+    public File getDirectory() {
+        return directoryProperty.get();
+    }
+
+    public void setDirectory(File directory) {
+        directoryProperty.set(directory);
+    }
+
+    public ObjectProperty<File> directoryProperty() {
+        return directoryProperty;
+    }
+
+    public List<ImageModel> getImages() {
+        return imagesProperty.get();
+    }
+
+    public void addImage(ImageModel image) {
+        imagesProperty.add(image);
+    }
+
+    public ListProperty<ImageModel> imagesProperty() {
+        return imagesProperty;
     }
 
 }
