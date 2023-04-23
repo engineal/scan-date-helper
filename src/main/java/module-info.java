@@ -6,6 +6,7 @@ module com.engineal.scandatehelper {
 
     opens com.engineal.scandatehelper to javafx.fxml;
 
-    exports com.engineal.scandatehelper.control to javafx.fxml;
+    opens com.engineal.scandatehelper.control to javafx.fxml;
+    opens com.engineal.scandatehelper.model to javafx.fxml;
     exports com.engineal.scandatehelper;
 }

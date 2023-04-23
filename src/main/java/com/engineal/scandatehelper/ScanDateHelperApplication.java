@@ -1,5 +1,7 @@
 package com.engineal.scandatehelper;
 
+import com.engineal.scandatehelper.model.ImageModel;
+import com.engineal.scandatehelper.model.ScanDateHelperModel;
 import com.engineal.scandatehelper.service.DirectoryService;
 import com.engineal.scandatehelper.service.ImageService;
 import com.engineal.scandatehelper.service.internal.DirectoryServiceImpl;
@@ -16,7 +18,7 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 public class ScanDateHelperApplication extends Application {
 
@@ -35,7 +37,7 @@ public class ScanDateHelperApplication extends Application {
         this.model = new ScanDateHelperModel();
 
         directoryService.addListener(path -> {
-            Future<?> status = imageService.changeDate(path, model.getDate());
+            CompletableFuture<Void> status = imageService.changeDate(path, model.getDate());
             model.addImage(new ImageModel(path, LocalDate.now(), LocalDate.now(), status));
         });
 

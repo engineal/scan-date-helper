@@ -1,5 +1,6 @@
 package com.engineal.scandatehelper;
 
+import com.engineal.scandatehelper.model.ScanDateHelperModel;
 import javafx.stage.Stage;
 
 import java.io.File;

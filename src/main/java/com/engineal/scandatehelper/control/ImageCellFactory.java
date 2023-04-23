@@ -1,6 +1,6 @@
 package com.engineal.scandatehelper.control;
 
-import com.engineal.scandatehelper.ImageModel;
+import com.engineal.scandatehelper.model.ImageModel;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.image.Image;
@@ -27,7 +27,7 @@ public class ImageCellFactory implements Callback<TableColumn<ImageModel, Path>,
                 if (item == null) {
                     super.setGraphic(null);
                 } else {
-                    imageView.setImage(new Image(item.toString()));
+                    imageView.setImage(new Image(item.toUri().toString()));
                     super.setGraphic(imageView);
                 }
             }

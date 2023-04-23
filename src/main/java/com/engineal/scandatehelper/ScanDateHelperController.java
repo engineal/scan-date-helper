@@ -2,6 +2,8 @@ package com.engineal.scandatehelper;
 
 import com.engineal.scandatehelper.converter.CustomNumberStringConverter;
 import com.engineal.scandatehelper.converter.MonthStringConverter;
+import com.engineal.scandatehelper.model.ImageModel;
+import com.engineal.scandatehelper.model.ScanDateHelperModel;
 import com.engineal.scandatehelper.service.DirectoryService;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -47,8 +49,7 @@ public class ScanDateHelperController implements Initializable {
     private final DirectoryService directoryService;
     private final ScanDateHelperModel model;
 
-    public ScanDateHelperController(DirectoryService directoryService,
-                                    ScanDateHelperModel model) {
+    public ScanDateHelperController(DirectoryService directoryService, ScanDateHelperModel model) {
         this.directoryService = directoryService;
         this.model = model;
     }

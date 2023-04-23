@@ -1,6 +1,7 @@
-package com.engineal.scandatehelper;
+package com.engineal.scandatehelper.model;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 
 import java.io.File;
 import java.time.DateTimeException;
@@ -15,7 +16,7 @@ public class ScanDateHelperModel {
     private final ObjectProperty<Month> monthProperty = new SimpleObjectProperty<>();
     private final IntegerProperty dayProperty = new SimpleIntegerProperty();
     private final ObjectProperty<File> directoryProperty = new SimpleObjectProperty<>();
-    private final ListProperty<ImageModel> imagesProperty = new SimpleListProperty<>();
+    private final ListProperty<ImageModel> imagesProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     public ScanDateHelperModel() {
         dateProperty.addListener((observable, oldValue, newValue) -> {

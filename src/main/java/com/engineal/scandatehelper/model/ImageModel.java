@@ -1,26 +1,31 @@
-package com.engineal.scandatehelper;
+package com.engineal.scandatehelper.model;
 
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.*;
 
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 public class ImageModel {
 
     private final ReadOnlyObjectWrapper<Path> pathProperty;
     private final ReadOnlyObjectWrapper<LocalDate> originalDateProperty;
     private final ReadOnlyObjectWrapper<LocalDate> newDateProperty;
-    private final ReadOnlyObjectWrapper<Future<?>> statusProperty;
+    private final ObjectProperty<ImageStatus> statusProperty;
 
-    public ImageModel(Path image, LocalDate originalDate, LocalDate newDate, Future<?> status) {
+    public ImageModel(Path image, LocalDate originalDate, LocalDate newDate, CompletableFuture<Void> status) {
         this.pathProperty = new ReadOnlyObjectWrapper<>(image);
         this.originalDateProperty = new ReadOnlyObjectWrapper<>(originalDate);
         this.newDateProperty = new ReadOnlyObjectWrapper<>(newDate);
 
-        // TODO: future probably needs to update this observable somehow
-        this.statusProperty = new ReadOnlyObjectWrapper<>(status);
+        this.statusProperty = new SimpleObjectProperty<>(new PendingStatus());
+        status.whenComplete(((imageStatus, ex) -> {
+            if (ex != null) {
+                this.statusProperty.set(new ExceptionStatus(ex));
+            } else {
+                this.statusProperty.set(new CompleteStatus());
+            }
+        }));
     }
 
     public Path getPath() {
@@ -47,11 +52,11 @@ public class ImageModel {
         return newDateProperty;
     }
 
-    public Future<?> getStatus() {
+    public ImageStatus getStatus() {
         return statusProperty.get();
     }
 
-    public ReadOnlyObjectProperty<Future<?>> statusProperty() {
+    public ObjectProperty<ImageStatus> statusProperty() {
         return statusProperty;
     }
 }

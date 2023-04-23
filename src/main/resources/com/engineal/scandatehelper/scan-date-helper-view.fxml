@@ -6,7 +6,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.engineal.scandatehelper.ScanDateHelperController">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.engineal.scandatehelper.ScanDateHelperController">
     <top>
         <MenuBar>
             <Menu text="%menu.file">

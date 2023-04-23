@@ -1,6 +1,6 @@
 package com.engineal.scandatehelper.control;
 
-import com.engineal.scandatehelper.ImageModel;
+import com.engineal.scandatehelper.model.ImageModel;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;

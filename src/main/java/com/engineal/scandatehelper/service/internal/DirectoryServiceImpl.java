@@ -107,8 +107,7 @@ public class DirectoryServiceImpl implements DirectoryService, Closeable {
             future.cancel(true);
             future = null;
         }
-        // TODO: executorService.close(); with Java 19
-        executorService.shutdown();
+        executorService.close();
         if (key != null) {
             key.cancel();
             key = null;
