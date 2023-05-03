@@ -5,4 +5,14 @@ public class PendingStatus implements ImageStatus {
     public boolean isComplete() {
         return false;
     }
+
+    @Override
+    public boolean hasError() {
+        return false;
+    }
+
+    @Override
+    public String getMessage() {
+        return null;
+    }
 }

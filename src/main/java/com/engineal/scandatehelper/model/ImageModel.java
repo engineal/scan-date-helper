@@ -1,22 +1,27 @@
 package com.engineal.scandatehelper.model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.nio.file.Path;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.concurrent.CompletableFuture;
 
 public class ImageModel {
 
     private final ReadOnlyObjectWrapper<Path> pathProperty;
-    private final ReadOnlyObjectWrapper<LocalDate> originalDateProperty;
-    private final ReadOnlyObjectWrapper<LocalDate> newDateProperty;
+    private final ReadOnlyObjectWrapper<OffsetDateTime> originalDateTimeProperty;
+    private final ReadOnlyObjectWrapper<OffsetDateTime> newDateTimeProperty;
+    private final ReadOnlyObjectWrapper<OffsetDateTime> digitizedDateTimeProperty;
     private final ObjectProperty<ImageStatus> statusProperty;
 
-    public ImageModel(Path image, LocalDate originalDate, LocalDate newDate, CompletableFuture<Void> status) {
-        this.pathProperty = new ReadOnlyObjectWrapper<>(image);
-        this.originalDateProperty = new ReadOnlyObjectWrapper<>(originalDate);
-        this.newDateProperty = new ReadOnlyObjectWrapper<>(newDate);
+    public ImageModel(Path path, OffsetDateTime originalDateTime, OffsetDateTime newDateTime, OffsetDateTime digitizedDateTime, CompletableFuture<Void> status) {
+        this.pathProperty = new ReadOnlyObjectWrapper<>(path);
+        this.originalDateTimeProperty = new ReadOnlyObjectWrapper<>(originalDateTime);
+        this.newDateTimeProperty = new ReadOnlyObjectWrapper<>(newDateTime);
+        this.digitizedDateTimeProperty = new ReadOnlyObjectWrapper<>(digitizedDateTime);
 
         this.statusProperty = new SimpleObjectProperty<>(new PendingStatus());
         status.whenComplete(((imageStatus, ex) -> {
@@ -36,20 +41,28 @@ public class ImageModel {
         return pathProperty;
     }
 
-    public LocalDate getOriginalDate() {
-        return originalDateProperty.get();
+    public OffsetDateTime getOriginalDateTime() {
+        return originalDateTimeProperty.get();
     }
 
-    public ReadOnlyObjectProperty<LocalDate> originalDateProperty() {
-        return originalDateProperty;
+    public ReadOnlyObjectProperty<OffsetDateTime> originalDateTimeProperty() {
+        return originalDateTimeProperty;
     }
 
-    public LocalDate getNewDate() {
-        return newDateProperty.get();
+    public OffsetDateTime getNewDateTime() {
+        return newDateTimeProperty.get();
     }
 
-    public ReadOnlyObjectProperty<LocalDate> newDateProperty() {
-        return newDateProperty;
+    public ReadOnlyObjectProperty<OffsetDateTime> newDateTimeProperty() {
+        return newDateTimeProperty;
+    }
+
+    public OffsetDateTime getDigitizedDateTime() {
+        return digitizedDateTimeProperty.get();
+    }
+
+    public ReadOnlyObjectProperty<OffsetDateTime> newDigitizedDateTimeProperty() {
+        return digitizedDateTimeProperty;
     }
 
     public ImageStatus getStatus() {

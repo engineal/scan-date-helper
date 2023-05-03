@@ -1,5 +1,6 @@
 package com.engineal.scandatehelper;
 
+import com.engineal.scandatehelper.exception.ImageException;
 import com.engineal.scandatehelper.model.ImageModel;
 import com.engineal.scandatehelper.model.ScanDateHelperModel;
 import com.engineal.scandatehelper.service.DirectoryService;
@@ -14,8 +15,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -37,8 +39,17 @@ public class ScanDateHelperApplication extends Application {
         this.model = new ScanDateHelperModel();
 
         directoryService.addListener(path -> {
-            CompletableFuture<Void> status = imageService.changeDate(path, model.getDate());
-            model.addImage(new ImageModel(path, LocalDate.now(), LocalDate.now(), status));
+            try {
+                Image image = imageService.getImage(path);
+                OffsetDateTime originalDateTime = image.getOriginalDateTime();
+                if (!Objects.equals(model.getDate(), originalDateTime.toLocalDate())) {
+                    OffsetDateTime newDateTime = model.getDate().atTime(originalDateTime.toLocalTime()).atOffset(originalDateTime.getOffset());
+                    CompletableFuture<Void> status = image.setOriginalDateTime(newDateTime);
+                    model.addImage(new ImageModel(path, originalDateTime, newDateTime, image.getDigitizedDateTime(), status));
+                }
+            } catch (ImageException | IOException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         appPreferences.loadPreferences(model);

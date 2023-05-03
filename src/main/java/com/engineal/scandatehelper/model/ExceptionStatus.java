@@ -1,7 +1,5 @@
 package com.engineal.scandatehelper.model;
 
-import com.engineal.scandatehelper.model.ImageStatus;
-
 public class ExceptionStatus implements ImageStatus {
 
     private final Throwable exception;
@@ -13,5 +11,15 @@ public class ExceptionStatus implements ImageStatus {
     @Override
     public boolean isComplete() {
         return true;
+    }
+
+    @Override
+    public boolean hasError() {
+        return true;
+    }
+
+    @Override
+    public String getMessage() {
+        return exception.getLocalizedMessage();
     }
 }

@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ImageCellFactory implements Callback<TableColumn<ImageModel, Path>, TableCell<ImageModel, Path>> {
@@ -27,7 +29,12 @@ public class ImageCellFactory implements Callback<TableColumn<ImageModel, Path>,
                 if (item == null) {
                     super.setGraphic(null);
                 } else {
-                    imageView.setImage(new Image(item.toUri().toString()));
+                    try {
+                        // Use InputStream so this doesn't hold file open
+                        imageView.setImage(new Image(Files.newInputStream(item)));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     super.setGraphic(imageView);
                 }
             }

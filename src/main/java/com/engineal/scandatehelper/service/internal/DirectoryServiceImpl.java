@@ -5,6 +5,7 @@ import com.engineal.scandatehelper.service.DirectoryService;
 import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.Duration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -61,21 +62,26 @@ public class DirectoryServiceImpl implements DirectoryService, Closeable {
                     Path filename = (Path) event.context();
 
                     // Verify that the new file is a text file.
+                    // Resolve the filename against the directory.
+                    // If the filename is "test" and the directory is "foo", the resolved name is "test/foo".
+                    Path child = directory.resolve(filename);
+
+                    // Wait for file to be free
+                    // TODO: there's probably a better way
                     try {
-                        // Resolve the filename against the directory.
-                        // If the filename is "test" and the directory is "foo", the resolved name is "test/foo".
-                        Path child = directory.resolve(filename);
-                        if (!Files.probeContentType(child).equals("image/bmp")) {
-                            System.err.format("New file '%s' is not a bmp image file.%n", filename);
-                            continue;
-                        }
-                    } catch (IOException x) {
-                        x.printStackTrace();
-                        continue;
+                        Thread.sleep(Duration.ofSeconds(1));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
 
                     // Notify the consumers
-                    consumers.forEach(consumer -> consumer.accept(filename));
+                    consumers.forEach(consumer -> {
+                        try {
+                            consumer.accept(child);
+                        } catch (Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
                 }
 
                 // Reset the key -- this step is critical if you want to

@@ -33,29 +33,13 @@
                     <RowConstraints />
                     <RowConstraints />
                     <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
-                    <RowConstraints />
                 </rowConstraints>
 
-                <RadioButton fx:id="simpleRadioButton" mnemonicParsing="false" selected="true" text="%tab.simple.text" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <toggleGroup>
-                        <ToggleGroup fx:id="tabGroup" />
-                    </toggleGroup>
-                </RadioButton>
-                <RadioButton fx:id="advancedRadioButton" mnemonicParsing="false" text="%tab.advanced.text" toggleGroup="$tabGroup" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                <Label text="%label.date.text" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label text="%label.year.text" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                <TextField fx:id="yearTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label text="%label.month.text" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                <ChoiceBox fx:id="monthChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <Label text="%label.day.text" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                <TextField fx:id="dayTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label text="%label.directory.text" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-                <Hyperlink fx:id="directoryText" onAction="#onDirectoryAction" text="%hyperlink.directory.nothing" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <CheckBox fx:id="scanCheckBox" mnemonicParsing="false" onAction="#onScanChecked" text="%checkbox.scan.text" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                <Label text="%label.date.text" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                <Label text="%label.directory.text" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <Hyperlink fx:id="directoryText" onAction="#onDirectoryAction" text="%hyperlink.directory.nothing" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <CheckBox fx:id="scanCheckBox" mnemonicParsing="false" onAction="#onScanChecked" text="%checkbox.scan.text" GridPane.columnSpan="2" GridPane.rowIndex="2" />
             </GridPane>
             <Separator />
             <TableView fx:id="imageLog" VBox.vgrow="ALWAYS">
@@ -78,12 +62,17 @@
                     </TableColumn>
                     <TableColumn editable="false" prefWidth="100" sortable="false" style="-fx-alignment: CENTER_LEFT;" text="Original Date">
                         <cellValueFactory>
-                            <PropertyValueFactory property="originalDate" />
+                            <PropertyValueFactory property="originalDateTime" />
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn editable="false" prefWidth="100" sortable="false" style="-fx-alignment: CENTER_LEFT;" text="New Date">
                         <cellValueFactory>
-                            <PropertyValueFactory property="newDate" />
+                            <PropertyValueFactory property="newDateTime" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn editable="false" prefWidth="100" sortable="false" style="-fx-alignment: CENTER_LEFT;" text="Date Digitized">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="digitizedDateTime" />
                         </cellValueFactory>
                     </TableColumn>
                     <TableColumn editable="false" prefWidth="30.0" style="-fx-alignment: CENTER;">

@@ -1,10 +1,11 @@
 package com.engineal.scandatehelper.control;
 
-import com.engineal.scandatehelper.model.ImageStatus;
 import com.engineal.scandatehelper.model.ImageModel;
+import com.engineal.scandatehelper.model.ImageStatus;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 public class StatusCellFactory implements Callback<TableColumn<ImageModel, ImageStatus>, TableCell<ImageModel, ImageStatus>> {
@@ -22,13 +23,9 @@ public class StatusCellFactory implements Callback<TableColumn<ImageModel, Image
                     super.setText(null);
                     super.setGraphic(null);
                 } else {
-                    if (!item.isComplete()) {
-                        super.setText(null);
-                        super.setGraphic(progressIndicator);
-                    } else {
-                        super.setText("Complete");
-                        super.setGraphic(null);
-                    }
+                    super.setText(!item.isComplete() ? null : item.getMessage());
+                    super.setGraphic(!item.isComplete() ? progressIndicator : null);
+                    super.setTextFill(item.hasError() ? Color.RED : Color.BLACK);
                 }
             }
         };
