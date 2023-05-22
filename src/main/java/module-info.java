@@ -1,5 +1,6 @@
 module com.engineal.scandatehelper {
     requires java.prefs;
+    requires java.logging;
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.commons.imaging;

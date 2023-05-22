@@ -12,8 +12,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DirectoryServiceImpl implements DirectoryService, Closeable {
+
+    private final static Logger LOGGER = Logger.getLogger(DirectoryService.class.getName());
 
     private final ExecutorService executorService;
     private final WatchService watcher;
@@ -61,7 +65,6 @@ public class DirectoryServiceImpl implements DirectoryService, Closeable {
                     // The filename is the context of the event.
                     Path filename = (Path) event.context();
 
-                    // Verify that the new file is a text file.
                     // Resolve the filename against the directory.
                     // If the filename is "test" and the directory is "foo", the resolved name is "test/foo".
                     Path child = directory.resolve(filename);
@@ -71,7 +74,7 @@ public class DirectoryServiceImpl implements DirectoryService, Closeable {
                     try {
                         Thread.sleep(Duration.ofSeconds(1));
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        LOGGER.log(Level.SEVERE, "Error processing event for path: '{0}': {1}", new Object[] {child, e});
                     }
 
                     // Notify the consumers
@@ -79,7 +82,7 @@ public class DirectoryServiceImpl implements DirectoryService, Closeable {
                         try {
                             consumer.accept(child);
                         } catch (Throwable t) {
-                            t.printStackTrace();
+                            LOGGER.log(Level.SEVERE, "Error processing event for path: '{0}': {1}", new Object[] {child, t});
                         }
                     });
                 }

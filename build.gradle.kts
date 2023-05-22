@@ -6,7 +6,7 @@ plugins {
 }
 
 project.group = "com.engineal"
-project.version = "1.0-SNAPSHOT"
+project.version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -48,10 +48,14 @@ tasks.test {
 }
 
 jlink {
-    imageZip.set(file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip"))
     options.addAll("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
-    launcher {
-        name = "app"
+    jpackage {
+        installerOptions = listOf("--win-shortcut-prompt", "--win-menu", "--win-shortcut",
+                "--license-file", "LICENSE",
+                "--about-url", "https://github.com/engineal/scan-date-helper",
+                "--win-update-url", "https://github.com/engineal/scan-date-helper/releases",
+                "--win-upgrade-uuid", "19452a95-28e2-4f93-a1ee-d49b5a18865f"
+        )
     }
 }
 

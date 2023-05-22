@@ -37,8 +37,12 @@ import java.time.temporal.ChronoField;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ImageServiceImpl implements ImageService, Closeable {
+
+    private final static Logger LOGGER = Logger.getLogger(ImageService.class.getName());
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
     private static final DateTimeFormatter OFFSET_TIME_FORMATTER = DateTimeFormatter.ofPattern("xxx");
@@ -138,7 +142,7 @@ public class ImageServiceImpl implements ImageService, Closeable {
                         exifDirectory.add(EXIF_TAG_OFFSET_TIME_ORIGINAL, originalDateTime.format(OFFSET_TIME_FORMATTER));
                         new ExifRewriter().updateExifMetadataLossless(new File(path.toUri()), os, outputSet);
                     } catch (ImageReadException | ImageWriteException | IOException e) {
-                        e.printStackTrace();
+                        LOGGER.log(Level.SEVERE, "Error updating EXIF metadata while setting original datetime: {0}", new Object[] {e});
                         throw new RuntimeException(e);
                     }
 
@@ -146,7 +150,7 @@ public class ImageServiceImpl implements ImageService, Closeable {
                     Files.delete(path);
                     Files.move(tempFile, path);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.log(Level.SEVERE, "IO Error while setting original datetime: {0}", new Object[] {e});
                     throw new RuntimeException(e);
                 }
             }, executorService);
