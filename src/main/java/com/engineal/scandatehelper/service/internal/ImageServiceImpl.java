@@ -69,6 +69,11 @@ public class ImageServiceImpl implements ImageService, Closeable {
     }
 
     @Override
+    public boolean isImageSupported(Path image) throws IOException {
+        return "image/jpeg".equals(Files.probeContentType(image));
+    }
+
+    @Override
     public Image getImage(Path image) throws ImageException, IOException {
         try {
             final ImageMetadata metadata = Imaging.getMetadata(new File(image.toUri()));

@@ -8,6 +8,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public interface ImageService extends Closeable {
-
+    boolean isImageSupported(Path image) throws IOException;
     Image getImage(Path image) throws ImageException, IOException;
 }

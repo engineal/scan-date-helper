@@ -1,6 +1,7 @@
 package com.engineal.scandatehelper;
 
 import com.engineal.scandatehelper.exception.ImageException;
+import com.engineal.scandatehelper.exception.UnsupportedFormatException;
 import com.engineal.scandatehelper.model.ImageModel;
 import com.engineal.scandatehelper.model.ScanDateHelperModel;
 import com.engineal.scandatehelper.service.DirectoryService;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.OffsetDateTime;
+import java.time.*;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -40,12 +41,19 @@ public class ScanDateHelperApplication extends Application {
 
         directoryService.addListener(path -> {
             try {
-                Image image = imageService.getImage(path);
-                OffsetDateTime originalDateTime = image.getOriginalDateTime();
-                if (!Objects.equals(model.getDate(), originalDateTime.toLocalDate())) {
-                    OffsetDateTime newDateTime = model.getDate().atTime(originalDateTime.toLocalTime()).atOffset(originalDateTime.getOffset());
-                    CompletableFuture<Void> status = image.setOriginalDateTime(newDateTime);
-                    model.addImage(new ImageModel(path, originalDateTime, newDateTime, image.getDigitizedDateTime(), status));
+                if (imageService.isImageSupported(path)) {
+                    Image image = imageService.getImage(path);
+                    OffsetDateTime originalDateTime = image.getOriginalDateTime();
+                    if (originalDateTime == null || !Objects.equals(model.getDate(), originalDateTime.toLocalDate())) {
+                        LocalTime time = originalDateTime != null ? originalDateTime.toLocalTime() : LocalTime.now();
+                        ZoneOffset offset = originalDateTime != null ? originalDateTime.getOffset() : ZoneId.systemDefault().getRules().getOffset(Instant.now());
+                        OffsetDateTime newDateTime = model.getDate().atTime(time).atOffset(offset);
+                        CompletableFuture<Void> status = image.setOriginalDateTime(newDateTime);
+                        model.addImage(new ImageModel(path, originalDateTime, newDateTime, image.getDigitizedDateTime(), status));
+                    }
+                } else {
+                    CompletableFuture<Void> status = CompletableFuture.failedFuture(new UnsupportedFormatException(path));
+                    model.addImage(new ImageModel(path, null, null, null, status));
                 }
             } catch (ImageException | IOException e) {
                 throw new RuntimeException(e);
